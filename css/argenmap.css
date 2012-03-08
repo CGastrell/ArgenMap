@@ -1,0 +1,25 @@
+
+.argenmapMapCanvas {
+	width:100%;
+	height:400px;
+}
+
+.argenmapMapHeader {
+ 
+	background-color:#00588B;
+	height:50px;
+	color:white;
+	padding:0px;
+}
+
+.argenmapMapFooter {
+	font-family:Arial;
+	color: #444;
+	background-color:#00588B;
+	font-size:10px;
+	text-align:right;
+	height:20px;
+	color:white;
+	padding:2px 5px;
+
+}
