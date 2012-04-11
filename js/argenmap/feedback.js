@@ -1,7 +1,10 @@
 goog.provide('argenmap.feedback');
 
 goog.require('goog.ui.Dialog');
-
+/**
+ * @namespace Espacio de nombres para las funciones que tengan que ver con
+ * los cuadritos de feedback q tengan q ver con objetos de argenmap
+ */
 argenmap.feedback = (function()
 {
 	return {

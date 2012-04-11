@@ -1,13 +1,36 @@
 goog.provide('argenmap.CapaBaseWMS_1_1');
 
-
+goog.require('argenmap.CapaBase');
+/**
+ * @class Representa a una capa opaca de un servicio WMS 1.1 (http://en.wikipedia.org/wiki/WMS) que puede ser utilizada como capa base de los mapas.
+ * @constructor
+ * @param {Object} opts opciones para construir la capa
+ */
 argenmap.CapaBaseWMS_1_1 = function(opts) {
-		// El objeto ImageMapType q representa a esta capa en para la api de gmaps.
+		argenmap.CapaBase.call(this);
+		/**
+		 * El objeto ImageMapType q representa a esta capa en para la api de gmaps.
+		 * @public 
+		 * @type google.maps.ImageMapType
+		 */
 		this.imageMapType = null;
-		// Referencia al objeto map de google. Se setea con argenmap.Mapa.agregarCapaBaseWMS_1_1
+		/**
+		 * Referencia al objeto map de google sobre el cual está capa está desplegada.
+		 * Se setea con argenmap.Mapa.agregarCapaBaseWMS()
+		 * @public 
+		 * @type google.maps.Map
+		 */
 		this.gmap = null;
-		
-		this.name = "Capa base WMS"
+		/**
+		 * Un identificador de texto para esta capa. Este identificador
+		 * es el que se mostrará en los selectores de capas del mapa.
+		 * @public
+		 * @default "Capa base WMS"
+		 * @type google.maps.Map
+		 */		
+		this.name = "Capa base WMS";
+
+		this.tipo = 'wms-1.1';
 		
 		goog.mixin(this, opts);      
         //Creating the WMS layer options.  This code creates the Google imagemaptype options for each wms layer.  In the options the function that calls the individual 
@@ -29,8 +52,16 @@ argenmap.CapaBaseWMS_1_1 = function(opts) {
         //Creating the object to create the ImageMapType that will call the WMS Layer Options.
 
         this.imageMapType = new google.maps.ImageMapType(wmsOptions);
-}
+};
 
+goog.inherits( argenmap.CapaBaseWMS_1_1, argenmap.CapaBase );
+
+/**
+ * Devuelve la url para conseguir una tile de google maps equivalente
+ * en el servidor WMS
+ * @param {google.maps.MapTile} tile La tile de GMap que se necesita emular en el servidor WMS
+ * @param {Number} zoom El nivel de zoom actual. Utilizado para los cálculos de resoluciones
+ */
 argenmap.CapaBaseWMS_1_1.prototype.WMSGetTileUrl = function(tile, zoom) {
       var projection = this.gmap.getProjection();
       var zpow = Math.pow(2, zoom);
@@ -69,4 +100,4 @@ argenmap.CapaBaseWMS_1_1.prototype.WMSGetTileUrl = function(tile, zoom) {
 
       var url = baseURL + "Layers=" + layers + "&version=" + version + "&EXCEPTIONS=INIMAGE" + "&Service=" + service + "&request=" + request + "&Styles=" + styles + "&format=" + format + "&SRS=" + crs + "&CRS=" + crs + "&BBOX=" + bbox + "&width=" + width + "&height=" + height;
       return url;
-  }
+  };
