@@ -1,7 +1,11 @@
-
+@import url("http://mapa.ign.gob.ar/argenmap/js/closure-library/closure/goog/css/autocomplete.css");
+@import url("http://mapa.ign.gob.ar/argenmap/js/closure-library/closure/goog/css/common.css");
+@import url("http://mapa.ign.gob.ar/argenmap/js/closure-library/closure/goog/css/toolbar.css");
+@import url("http://mapa.ign.gob.ar/argenmap/js/closure-library/closure/goog/css/button.css");
 .argenmapMapCanvas {
 	width:100%;
-	height:400px;
+
+	min-height:200px;
 }
 
 .argenmapMapHeader {
@@ -22,4 +26,10 @@
 	color:white;
 	padding:2px 5px;
 
+}
+
+#Esto es feo y para pisar el color de la barra de bootstrap
+
+.navbar-inner {
+	background-color: #00588B !important;
 }
