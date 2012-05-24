@@ -19,7 +19,7 @@ argenmap.MapaDeLeaflet = function()
 	
 	this._zoom = 5;
 	// Muero si no está definido el objeto google maps
-	goog.asserts.assert( L.Map );
+	// goog.asserts.assertObject( L.Map );
 };
 
 goog.inherits( argenmap.MapaDeLeaflet, goog.events.EventTarget );
@@ -31,17 +31,20 @@ goog.inherits( argenmap.MapaDeLeaflet, goog.events.EventTarget );
  */
 argenmap.MapaDeLeaflet.prototype.inicializar = function( mapCanvas )
 {
+	//ojo con esto, como el Leaflet pide el divID como string tengo que tweakear aca
+	if(goog.isObject(mapCanvas)) mapCanvas = mapCanvas.id;
 	goog.asserts.assertString(mapCanvas);
-	var bsas = new new L.LatLng(-38,-63);
+	var bsas = new L.LatLng(-38,-63);
 
 	var myOptions = {
 	    zoom: this._zoom,
 		minZoom:0,
-		center: new L.LatLng( bsas.lat(), bsas.lng() ),
+		center: new L.LatLng( bsas.lat, bsas.lng ),
 		zoomControl: true
   };
   
   this.lmap = new L.Map( mapCanvas , myOptions);
+  this.lmap.addControl(this._layerControl);
 };
 
 /**
@@ -55,9 +58,9 @@ argenmap.MapaDeLeaflet.prototype.centro = function( nuevoCentro )
 {
 	if ( goog.isDef( nuevoCentro ) ) {
 		goog.asserts.assertInstanceof(nuevoCentro, argenmap.LatLng);
-		this.lmap.panTo( nuevoCentro.gLatLng );
+		this.lmap.panTo( new L.LatLng(nuevoCentro.lat(), nuevoCentro.lng()) );
 	}
-	return new argenmap.LatLng(this.lmap.getCenter().lat(), this.lmap.getCenter().lng() );
+	return new argenmap.LatLng(this.lmap.getCenter().lat, this.lmap.getCenter().lng );
 };
 
 
@@ -94,32 +97,45 @@ argenmap.MapaDeLeaflet.prototype.encuadrar = function( nuevoEncuadre )
  *@param {Object} capa capa a agregar al set de capas bases disponibles para este mapa.
  */
 argenmap.MapaDeLeaflet.prototype.agregarCapaBase = function(capa)
-{ 
-		goog.asserts.assert( capa );
-		var defaults = {
-			baseURL:'',
-			layers:'',
-			format:'image/png8',
-			transparent:false,
-			attribution:'Capa Base'
-		};
-		goog.mixin(defaults, capa);
-		goog.asserts.assert(defaults.baseURL);
-		goog.asserts.assert(defaults.layers);
-		
-		capa = defaults;
-		
-		var c = new L.TileLayer.WMS( capa.baseURL, {
-			layers: capa.layers,
-			format: capa.format,
-			transparent: false,
-			attribution: capa.nombre
-		});
-
-		//capa._map = this.lmap;
-		
-		//this.lmap.addLayer(capa);
-		this._layerControl.addBaseLayer(c,c.getAttribution());
+{
+	//Leaflet, hasta donde vi, no puede cambiar la capa base, esto 
+	//habria que fixarlo con un console.log(este mapa no admite ...)
+	//y en esta funcion ignorar todo parametro y simplemente crear
+	//la capa base de leaflet
+	if(!goog.isObject(capa)) return;
+	goog.asserts.assert( capa );
+	
+	var defaults = {
+		baseURL:'',
+		layers:'',
+		format:'image/png8',
+		transparent:false,
+		attribution:'Capa Base'
+	};
+	goog.mixin(defaults, capa);
+	goog.asserts.assert(defaults.baseURL);
+	goog.asserts.assert(defaults.layers);
+	
+	capa = defaults;
+	
+	//esto esta fixado ignorando todo lo anterior
+	var cloudmadeUrl = 'http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/997/256/{z}/{x}/{y}.png';
+	var cloudmadeAttribution = 'Map data &copy; 2011 OpenStreetMap contributors, Imagery &copy; 2011 CloudMade';
+	var cloudmade = new L.TileLayer(cloudmadeUrl, {maxZoom: 18, attribution: cloudmadeAttribution});
+	
+	this.lmap.addLayer(cloudmade);
+	this._layerControl.addBaseLayer(cloudmade);
+	/*
+	var c = new L.TileLayer.WMS( capa.baseURL, {
+		layers: capa.layers,
+		format: capa.format,
+		transparent: false,
+		attribution: capa.nombre
+	});
+	*/
+	//capa._map = this.lmap;
+	//this.lmap.addLayer(capa);
+	//this._layerControl.addBaseLayer(c,c.getAttribution());
 };
 
 
@@ -132,9 +148,16 @@ argenmap.MapaDeLeaflet.prototype.agregarCapaWMS = function( capa )
 {
 	
 	goog.asserts.assertInstanceof( capa, argenmap.CapaWMS );
-	
-	this.lmap.addLayer(capa);
-	this._layerControl.addOverlay(capa,capa.getAttribution());
+
+	var a = new L.TileLayer.WMS(capa.baseURL, {
+		layers: capa.layers,
+		format: 'image/png',
+		transparent: true,
+		attribution: "CAPA"
+	});
+
+	this.lmap.addLayer(a);
+	this._layerControl.addOverlay(a,a.getAttribution());
 	//capa._map = this.lmap;
 	//this.gmap.overlayMapTypes.insertAt(0, capa.imageMapType);
 

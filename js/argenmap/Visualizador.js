@@ -10,7 +10,7 @@ goog.require('argenmap.ui.Visualizador');
 
 /**
  * @class Representa a un visualizador de mapas compuesto por un mapa {argenmap.Map} y los controles del mismo.
- * @param {Object} opts opciones de inicio. Se hace un mixin de tops con this.
+ * @param {Object} opts opciones de inicio. Se hace un mixin de opts con this.
  * @constructor
  */
 argenmap.Visualizador = function( opts ) {
@@ -20,8 +20,8 @@ argenmap.Visualizador = function( opts ) {
 	this.vistaInicial = new argenmap.Vista( {
 		capasBase_: [
 			new argenmap.CapaBaseWMS({
-					name: 'Capa Base IGN',
 					baseURL: 'http://mapa.ign.gob.ar/geoserver/wms?',
+					name: 'Capa Base IGN',
 					layers: 'capabasesigign'
 			}),
 			'satellite'
@@ -29,11 +29,12 @@ argenmap.Visualizador = function( opts ) {
 		capasWMS_: [
 			new argenmap.CapaWMS({
 					baseURL: 'http://mapa.ign.gob.ar/geoserver/wms?',
+					name: 'Capa Base IGN',
 					layers: 'capabasesigign'
 			})
 		],
 		centro_: new argenmap.LatLng(-34.55129771092924, -62.27764892578125),
-		zoom_: 5,
+		zoom_: 5
 	});
 
 	if ( goog.isDef( opts ) ) {

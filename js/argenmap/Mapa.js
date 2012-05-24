@@ -21,7 +21,7 @@ goog.require('argenmap.MapaDeGoogle');
  * @constructor
 
  */
-argenmap.Mapa = function()
+argenmap.Mapa = function(claseDeMapaPorDefecto)
 {
 	goog.events.EventTarget.call(this);
 	/**
@@ -72,9 +72,12 @@ argenmap.Mapa = function()
 	this.mapCanvas_ = false;
 	/**
 	 * El adaptador de la api de mapas a usar
+	 * Por defecto usa el adaptador de capa base de Google (argenmap.MapaDeGoogle)
+	 * Para usar otro adaptador, este debe estar incluido junto a su librería de base
+	 * Ej: argenmap.MapaDeLeaflet, debe incluir la librería de Leaflet.
 	 * @type {argenmap.MapaDeGoogle}
 	 */
-	this.adaptador = new argenmap.MapaDeGoogle();
+	this.adaptador = claseDeMapaPorDefecto == undefined ? new argenmap.MapaDeGoogle() : new claseDeMapaPorDefecto();
 };
 
 //goog.inherits( argenmap.Mapa, goog.events.EventTarget );
@@ -116,7 +119,7 @@ argenmap.Mapa.prototype.prepararContenedor_ = function( divId)
 
 	goog.asserts.assertString( divId );
 
-	this.mapCanvas_ = goog.dom.createDom('div', 'argenmapMapCanvas');
+	this.mapCanvas_ = goog.dom.createDom('div', {'class':'argenmapMapCanvas','id':'argenmapCanvas'});
 	this.mapHeader_ = goog.dom.createDom('div', 'argenmapMapHeader');
 	this.mapFooter_ = goog.dom.createDom('div', 'argenmapMapFooter');
 	var mapLogo = goog.dom.createDom('img');
