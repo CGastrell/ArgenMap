@@ -1,8 +1,0 @@
-wms-parser.php
-
-Descargado de http://drupalcode.org/viewvc/drupal/contributions/modules/carto/wms-parser.php?revision=1.2&content-type=text/plain&view=co&pathrev=HEAD
-
-CVS
-===
-
-http://drupalcode.org/viewvc/drupal/contributions/modules/carto/wms-parser.php?view=log&pathrev=HEAD
