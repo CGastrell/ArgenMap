@@ -93,7 +93,7 @@ argenmap.Vista.prototype.capasBase = function( nuevasCapasBase )
 
 argenmap.Vista.prototype.agregarCapaBase = function( nuevaCapaBase )
 {
-	googe.array.insert( this.capasBase_, nuevaCapaBase );
+	goog.array.insert( this.capasBase_, nuevaCapaBase );
 };
 
 argenmap.Vista.prototype.quitarCapaBase = function( capaBase )

@@ -14,6 +14,16 @@ argenmap.MapaDeGoogle = function()
 	 * @type {google.maps.Map}
 	 */
 	this.gmap = null;
+	
+	/**
+	 * Estilo por defecto para aplicar a las capas base
+	 */
+	this.estilosPorDefecto = [{
+		elementType: "labels",
+		stylers:[{visibility:"off"}]
+	}];
+	
+
 	// Muero si no está definido el objeto google maps
 	goog.asserts.assert( google.maps );
 };
@@ -30,17 +40,32 @@ argenmap.MapaDeGoogle.prototype.inicializar = function( mapCanvas )
 	var bsas = new google.maps.LatLng(-38,-63);
 
 	var myOptions = {
-	    zoom: this.zoom_,
+		zoom: this.zoom_,
 		minZoom:5,
+		styles: this.estilosPorDefecto,
 		center: new google.maps.LatLng( bsas.lat(), bsas.lng() ),
 		scaleControl: true,
 		streetViewControl: false,
 		panControl:false,
 		rotateControl: true
-		//mapTypeId: google.maps.MapTypeId.SATELLITE
+		// mapTypeId: []
   };
   
-  this.gmap = new google.maps.Map( mapCanvas , myOptions);
+	
+  this.gmap = new google.maps.Map( mapCanvas, myOptions); //esta linea llevaba el "mapCanvas, myOptions" para inicializar de una
+
+	/**
+	 * esto lo hago aca una vez y queda seteado, el tema es que, por algun motivo
+	 * el set no se hace antes que el mapType se instancie con el mapa, ergo queda
+	 * el nombre original en el mapControl. Si sacamos y volvemos a meter el mapTypeId,
+	 * queda con el nombre en castellano
+	 * TO-DO
+	 */
+	// var argenmapMapTypeTerreno = new google.maps.StyledMapType(this.estilosPorDefecto, {name: this.nombrarCapaPorTipo('terrain')});
+	// var argenmapMapTypeSatelital = new google.maps.StyledMapType(this.estilosPorDefecto, {name: this.nombrarCapaPorTipo('satellite')});
+	// this.gmap.mapTypes.set(google.maps.MapTypeId.TERRAIN, argenmapMapTypeTerreno);
+	// this.gmap.mapTypes.set(google.maps.MapTypeId.SATELLITE, argenmapMapTypeSatelital);
+	// this.gmap.setOptions(myOptions);
 };
 
 /**
@@ -90,7 +115,7 @@ argenmap.MapaDeGoogle.prototype.encuadrar = function( nuevoEncuadre )
 
 /**
  * Agrega una capa base al set de capas bases disponibles para este mapa.
- *@param {Object | String} capa capa a agregar al set de capas bases disponibles para este mapa. Si es una string, debe ser "satellite", "roadmap", o "hybrid"
+ * @param {Object | String} capa capa a agregar al set de capas bases disponibles para este mapa. Si es una string, debe ser "satellite", "roadmap", o "hybrid"
  * que son los identificadores de 'mapas base' de google maps
  */
 argenmap.MapaDeGoogle.prototype.agregarCapaBase = function(capa)
@@ -99,6 +124,12 @@ argenmap.MapaDeGoogle.prototype.agregarCapaBase = function(capa)
 		// Si capa es String, asumo que es un id de capa de gmaps
 		goog.asserts.assert( capa );
 
+		//aca y/o en initialize
+		// var argenmapMapTypeTerreno = new google.maps.StyledMapType(this.estilosPorDefecto, {name: this.nombrarCapaPorTipo('terrain')});
+		// var argenmapMapTypeSatelital = new google.maps.StyledMapType(this.estilosPorDefecto, {name: this.nombrarCapaPorTipo('satellite')});
+		// this.gmap.mapTypes.set(google.maps.MapTypeId.TERRAIN, argenmapMapTypeTerreno);
+		// this.gmap.mapTypes.set(google.maps.MapTypeId.SATELLITE, argenmapMapTypeSatelital);
+		// console.log('adding capa '+Math.random());
 		if (goog.isString( capa ) ) {
 			if ( goog.isDef( this.gmap.mapTypeControlOptions) ) {
 				goog.array.insert(this.gmap.mapTypeControlOptions.mapTypeIds, capa );
@@ -132,6 +163,25 @@ argenmap.MapaDeGoogle.prototype.agregarCapaBase = function(capa)
 };
 
 
+/**
+ * Devuelve el nombre para la capa segun el mapTypeId
+ *
+ * @param {String} Tipo de capa mapTypeId
+ */
+ argenmap.MapaDeGoogle.prototype.nombrarCapaPorTipo = function(tipo)
+ {
+	var nombre = "Capa";
+	switch(tipo)
+	{
+		case 'satellite':
+			nombre = "Satelital";
+		break;
+		case 'terrain':
+			nombre = "Terreno";
+		break;
+	}
+	return nombre;
+ }
 /**
  * Superpone una capa WMS sobre las capas base y las demás capas ya superpuestas
  *

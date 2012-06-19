@@ -1,0 +1,73 @@
+
+<!DOCTYPE html>
+
+<html lang="es">
+
+<head>
+
+<meta charset="utf-8">
+
+<link type="text/css" href="css/argenmap.css" rel="stylesheet"/>
+<style type="text/css">
+body {
+    margin:0px;
+	height:100%;
+}
+
+</style>
+
+<script src="http://mapa.ign.gob.ar/argenmap/js/closure-library/closure/goog/base.js"></script>
+<script src="http://mapa.ign.gob.ar/argenmap/js/closure-library/closure/goog/debug/debug.js"></script>
+<script src="http://mapa.ign.gob.ar/argenmap/js/closure-library/closure/goog/debug/entrypointregistry.js"></script>
+<script src="http://mapa.ign.gob.ar/argenmap/js/closure-library/closure/goog/dom/dom.js"></script>
+<script src="http://mapa.ign.gob.ar/argenmap/js/closure-library/closure/goog/events/events.js"></script>
+<script src="http://mapa.ign.gob.ar/argenmap/js/closure-library/closure/goog/events/eventtarget.js"></script>
+<script src="http://mapa.ign.gob.ar/argenmap/js/closure-library/closure/goog/pubsub/pubsub.js"></script>
+<script src="http://mapa.ign.gob.ar/argenmap/js/closure-library/closure/goog/dom/viewportsizemonitor.js"></script>
+
+<script src="js/argenmap/LatLng.js" ></script>
+<script src="js/argenmap/EncuadreLatLng.js" ></script>
+<script src="js/argenmap/MapaDeGoogle.js" ></script>
+<script src="js/argenmap/Mapa.js" ></script>
+<script src="js/argenmap/Capa.js" ></script>
+<script src="js/argenmap/CapaBase.js" ></script>
+<script src="js/argenmap/CapaWMS.js" ></script>
+<script src="js/argenmap/CapaBaseWMS.js" ></script>
+<script src="js/argenmap/Vista.js" ></script>
+<script src="js/argenmap/ui/Visualizador.js" ></script>
+<script src="js/argenmap/Visualizador.js" ></script>
+<script src="js/argenmap/base.js" ></script>
+
+<script type="text/javascript">
+var visualizador;
+var t = 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/536.5 (KHTML, like Gecko) Chrome/19.0.1084.46 Safari/536.5';
+function resize()
+{
+	var mapa = document.getElementById( 'mapa' );
+	mapa.style.height = argenmap.tamanioDeViewport().alto + 'px';
+	console.log('resize fn');
+}
+
+function cargarVisualizador()
+{
+	resize();
+	visualizador = new argenmap.Visualizador( {
+		div: 'mapa'
+	});
+	// visualizador.mapa.cambiarCapaBase( 'satellite' );
+	//goog.events.listen(vsm, 'tete', function(e){
+	//	console.log('tete handler');
+	//	resize();
+	//});
+	argenmap.pubsub.subscribe( 'viewportcambiotamaño', function(e) {
+		console.log('resize handler: ' + e);
+		resize();
+		visualizador.mapa.maximizarCanvas_();
+	});
+}
+</script>
+</head>
+<body onload="cargarVisualizador()">
+<div id="mapa" style="height:100%"></body>	
+</body>	
+</html>

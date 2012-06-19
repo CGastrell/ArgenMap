@@ -24,7 +24,8 @@ argenmap.Visualizador = function( opts ) {
 					name: 'Capa Base IGN',
 					layers: 'capabasesigign'
 			}),
-			'satellite'
+			'satellite',
+			'terrain'
 		],
 		capasWMS_: [
 			new argenmap.CapaWMS({

@@ -36,7 +36,11 @@ argenmap.tamanioDeViewport = function()
 argenmap.pubsub = new goog.pubsub.PubSub();
 
 var vsm = new goog.dom.ViewportSizeMonitor();
-
+//test
+// vsm.addEventListener(goog.events.EventType.RESIZE, function(e)
+// {
+	// vsm.dispatchEvent('tete');
+// });
 goog.events.listen(vsm, goog.events.EventType.RESIZE, function(e) {
     argenmap.pubsub.publish( 'viewportcambiotamaño', { alto: e.target.size_.height, ancho: e.target.size_.width  });
 });
