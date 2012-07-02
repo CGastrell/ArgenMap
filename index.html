@@ -40,30 +40,24 @@ body {
 
 <script type="text/javascript">
 var visualizador;
-var t = 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/536.5 (KHTML, like Gecko) Chrome/19.0.1084.46 Safari/536.5';
 function resize()
 {
-	var mapa = document.getElementById( 'mapa' );
-	mapa.style.height = argenmap.tamanioDeViewport().alto + 'px';
-	console.log('resize fn');
+	var canvas = document.getElementById( 'mapa' );
+    canvas.style.height = argenmap.tamanioDeViewport().alto + 'px';
 }
 
 function cargarVisualizador()
 {
+  resize(); 
+  visualizador = new argenmap.Visualizador( {
+	div: 'mapa'
+  });
+  visualizador.mapa.cambiarCapaBase( 'satellite' );
+
+  argenmap.pubsub.subscribe( 'viewportcambiotamaño', function() {
 	resize();
-	visualizador = new argenmap.Visualizador( {
-		div: 'mapa'
-	});
-	// visualizador.mapa.cambiarCapaBase( 'satellite' );
-	//goog.events.listen(vsm, 'tete', function(e){
-	//	console.log('tete handler');
-	//	resize();
-	//});
-	argenmap.pubsub.subscribe( 'viewportcambiotamaño', function(e) {
-		console.log('resize handler: ' + e);
-		resize();
-		visualizador.mapa.maximizarCanvas_();
-	});
+	visualizador.mapa.maximizarCanvas_();
+  });
 }
 </script>
 </head>

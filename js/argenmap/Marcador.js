@@ -22,4 +22,3 @@ argenmap.Marcador = function()
 // goog.inherits( argenmap.MapaDeGoogle, goog.events.EventTarget );
 goog.inherits( goog.events.EventTarget );
 
-
