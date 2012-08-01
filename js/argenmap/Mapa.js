@@ -7,7 +7,7 @@ goog.require('goog.asserts');
 
 goog.require('argenmap.LatLng');
 goog.require('argenmap.EncuadreLatLng');
-goog.require('argenmap.MapaDeGoogle');
+// goog.require('argenmap.MapaDeGoogle');
 
 
 /**
@@ -28,6 +28,8 @@ argenmap.Mapa = function(claseDeMapaPorDefecto)
 	 * Referencia al objeto map de google que se usa para mostrar el argenmap.Mapa
 	 * @private 
 	 * @type google.maps.Map
+	 * @todo esto esta mal, esto deberia setearse solo al adaptador,
+	 * el mapa no puede tener referencia directa a gmaps si lo queremos abstraer
 	 */
 	this.gmap = null;
 	/** 
@@ -102,8 +104,7 @@ argenmap.Mapa.prototype.mostrarEnDiv = function(divId)
 	var mapCanvas = this.prepararContenedor_( divId );
 
 	this.adaptador.inicializar( mapCanvas );  
-  
- };
+};
 
 
 
