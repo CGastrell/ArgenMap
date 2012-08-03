@@ -7,7 +7,7 @@ goog.require('goog.events.EventTarget');
  * 
  * @constructor
  */
-argenmap.Marcador = function()
+argenmap.Marcador = function(options)
 {
 	/**
 	 * Título del marcador
@@ -27,6 +27,7 @@ argenmap.Marcador = function()
 	 */
 	this.mapa = null;
 	
+	//@todo options y assert aca
 };
 
 /**
@@ -50,6 +51,16 @@ argenmap.Marcador.prototype.establecerMapa = function(mapa)
 	}
 	//para luego hacer la inicializacion correspondiente
 	this.adaptador.inicializar();
+}
+
+/**
+ * Establece la posición del marcador.
+ * @type argenmap.LatLng
+ */
+argenmap.Marcador.prototype.establecerPosicion = function(latlng)
+{
+	//@todo assert aca
+	this.posicion = latlng;
 }
 // goog.inherits( argenmap.MapaDeGoogle, goog.events.EventTarget );
 // goog.inherits( goog.events.EventTarget );
