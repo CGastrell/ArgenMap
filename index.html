@@ -1,77 +1,13 @@
-
-<!DOCTYPE html>
-
-<html lang="es">
-
-<head>
-
-<meta charset="utf-8">
-
-<link type="text/css" href="css/argenmap.css" rel="stylesheet"/>
-<style type="text/css">
-body {
-    margin:0px;
-	height:100%;
-}
-
-</style>
-
-<script src="http://mapa.ign.gob.ar/argenmap/js/closure-library/closure/goog/base.js"></script>
-<script src="http://mapa.ign.gob.ar/argenmap/js/closure-library/closure/goog/debug/debug.js"></script>
-<script src="http://mapa.ign.gob.ar/argenmap/js/closure-library/closure/goog/debug/entrypointregistry.js"></script>
-<script src="http://mapa.ign.gob.ar/argenmap/js/closure-library/closure/goog/dom/dom.js"></script>
-<script src="http://mapa.ign.gob.ar/argenmap/js/closure-library/closure/goog/events/events.js"></script>
-<script src="http://mapa.ign.gob.ar/argenmap/js/closure-library/closure/goog/events/eventtarget.js"></script>
-<script src="http://mapa.ign.gob.ar/argenmap/js/closure-library/closure/goog/pubsub/pubsub.js"></script>
-<script src="http://mapa.ign.gob.ar/argenmap/js/closure-library/closure/goog/dom/viewportsizemonitor.js"></script>
-
-<script src="js/argenmap/LatLng.js" ></script>
-<script src="js/argenmap/EncuadreLatLng.js" ></script>
-<script src="js/argenmap/MapaDeGoogle.js" ></script>
-<script src="js/argenmap/Mapa.js" ></script>
-<script src="js/argenmap/Capa.js" ></script>
-<script src="js/argenmap/CapaBase.js" ></script>
-<script src="js/argenmap/CapaWMS.js" ></script>
-<script src="js/argenmap/CapaBaseWMS.js" ></script>
-<script src="js/argenmap/Vista.js" ></script>
-<script src="js/argenmap/ui/Visualizador.js" ></script>
-<script src="js/argenmap/Visualizador.js" ></script>
-<script src="js/argenmap/base.js" ></script>
-
-<script type="text/javascript">
-var visualizador;
-function resize()
-{
-	var canvas = document.getElementById( 'mapa' );
-    canvas.style.height = argenmap.tamanioDeViewport().alto + 'px';
-}
-
-function cargarVisualizador()
-{
-  resize(); 
-  visualizador = new argenmap.Visualizador( {
-	div: 'mapa'
-  });
-  //visualizador.mapa.cambiarCapaBase( 'satellite' );
-
-  argenmap.pubsub.subscribe( 'viewportcambiotamaño', function() {
-	resize();
-	visualizador.mapa.maximizarCanvas_();
-  });
-}
-</script>
-</head>
-<body onload="cargarVisualizador()">
-<p id='notice' style="position:absolute;z-index:3000;top:0px;left:200px;background-color:rgba(255,255,255,0.5);padding:10px;width:300px">
-Cambio al index<br />
-Cambio al index 2<br />
-Este proyecto esta deprecado, ver <a href="http://github.io/oskosk/argenmap.jquery">argenmap.jquery</a>!
+Esto es docs, esta en /docs
 <br />
-Esto haria las veces de landing para el proyecto, es un index que tiene que existir en 
-el raiz del proyecto y debe trackearse desde master y gh-pages. El mismo tratamiento se le da al
-directorio <em>docs</em>. Este index tiene que tener un vinculo que lleve a los docs, como el siguiente:
-<a href="docs/index.html">Ver documentacion</a>
-</p>
-<div id="mapa" style="height:100%"></body>	
-</body>	
-</html>
+Este es un cambio en master que se va a ver en gh-pages con el hook maravilloso
+<br />
+<a href="tests/test.html">Prueba</a>
+<br />
+Este cambio lo meti despues de haber clonado con -b gh-pages en el dir docs de la repo
+<br />
+Este es otro cambio, lo meto desde master en docs/index, commit en master.
+<br />
+Luego cd docs/ y desde ahi commit en gh-pages. Por ultimo todo deberia quedar en un push --all
+<br />
+A ver si anda...
